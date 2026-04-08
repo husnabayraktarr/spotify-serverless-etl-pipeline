@@ -1,8 +1,7 @@
 # Spotify Serverless ETL Pipeline on AWS
-AWS Lambda + S3 + Spotify API ETL pipeline
 
 ## Overview
-This project implements a serverless ETL pipeline using AWS Lambda and Amazon S3 to extract artist data from the Spotify API, store raw JSON data, transform it into structured format, and load the processed data into S3 for analytics.
+This project implements a serverless ETL pipeline using AWS Lambda and Amazon S3 to extract artist data from the Spotify API, store raw JSON data, transform it into structured CSV format, and load it into S3 for analytics.
 
 ## Architecture
 Spotify API → AWS Lambda → S3 (raw) → Transform → S3 (processed)
@@ -15,40 +14,28 @@ Spotify API → AWS Lambda → S3 (raw) → Transform → S3 (processed)
 - Spotify Web API
 
 ## ETL Workflow
+### Extract
+- Authenticate with Spotify API
+- Fetch artist data
 
-### 1. Extract
-- Authenticate with Spotify API using Client Credentials Flow
-- Retrieve artist metadata
+### Raw Load
+- Save JSON to S3 raw layer
 
-### 2. Load (Raw Layer)
-- Store full API response in S3 as JSON:
-  - `raw/spotify_raw.json`
+### Transform
+- Clean and structure artist metadata
 
-### 3. Transform
-- Extract relevant fields:
-  - artist_name
-  - artist_id
-  - popularity
-  - followers
-  - genres
-  - spotify_url
-
-### 4. Load (Processed Layer)
-- Save structured data to S3 as CSV:
-  - `processed/spotify_processed.csv`
+### Processed Load
+- Save transformed CSV to S3 processed layer
 
 ## Security
-- Used environment variables for API credentials
-- Managed permissions via IAM roles
-- Resolved S3 access issues with Lambda execution role policies
+- Used environment variables for credentials
+- IAM role for secure S3 access
 
 ## Key Learnings
-- API integration with authentication
-- Serverless execution with AWS Lambda
-- Raw vs processed data layer design
-- IAM debugging and permissions handling
-- ETL pipeline design principles
-
+- API authentication
+- Serverless pipelines
+- S3 data lake structure
+- IAM debugging
 ## Future Improvements
 - Add scheduled execution using EventBridge
 - Expand to multiple artists
